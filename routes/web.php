@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TasksController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,17 +18,17 @@ Route::get('/', function () {
     return view('welcome');
 });*/
 
-Route::prefix('/tarefas')->group(function (){
+Route::prefix('/tasks')->group(function (){
 
-    Route::get('/', 'TarefasController@list')->name('tarefas.list'); // Listagem de tarefas
+    Route::get('/', [TasksController::Class, 'list'])->name('list');
 
-    Route::get('add', 'TarefasController@add')->name('tarefas.add'); // Tela de adição
-    Route::post('add', 'TarefasController@addAction'); // Ação de adição
+    Route::get('add', [TasksController::Class, 'add'])->name('add');
+    Route::post('add', [TasksController::Class, 'addAction']);
 
-    Route::get('edit/{id}', 'TarefasController@edit')->name('tarefas.edit'); // Tela de editar
-    Route::post('edit/{id}', 'TarefasController@editAction'); // Ação de editar
+    Route::get('edit/{id}', [TasksController::Class, 'edit'])->name('edit');
+    Route::post('edit/{id}', [TasksController::Class, 'editAction']);
 
-    Route::get('delete/{id}', 'TarefasController@del')->name('tarefas.del'); // Ação de deletar
+    Route::get('delete/{id}', [TasksController::Class, 'del'])->name('del');
 
-    Route::get('mark/{id}', 'TarefasController@done')->name('tarefas.done'); // Marcar como resolvido/não
+    Route::get('mark/{id}', [TasksController::Class, 'done'])->name('done');
 });
