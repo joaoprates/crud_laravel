@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\TasksController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +19,9 @@ Route::get('/', function () {
     return view('welcome');
 });*/
 
+Route::get('/login', [LoginController::Class, 'index'])->name('login');
+Route::post('/login', [LoginController::Class, 'authenticate']);
+
 Route::prefix('/tasks')->group(function (){
 
     Route::get('/', [TasksController::Class, 'list'])->name('list');
@@ -32,3 +36,7 @@ Route::prefix('/tasks')->group(function (){
 
     Route::get('mark/{id}', [TasksController::Class, 'done'])->name('done');
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

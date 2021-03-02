@@ -10,7 +10,7 @@ class TasksController extends Controller
 {
     public function list(){
 
-        $list = DB::select('select * from tasks');
+        $list = Task::all();
 
         return view('tasks.list', [
             'list' => $list
