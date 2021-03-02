@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Routing\Controller;
@@ -29,18 +30,15 @@ class TasksController extends Controller
 
         $title = $request->input('title');
 
-        DB::insert('insert into tasks (title) values (:title)', [
-            'title' => $title
-        ]);
+        $task  = new Task;
+        $task->title = $title;
+        $task->save();
 
         return redirect()->route('list');
     }
 
     public function edit($id){
-
-        $data = DB::select('select * from tasks where id = :id', [
-            'id' => $id
-        ]);
+        $data = Task::find($id);
 
         if(count($data) > 0) {
             return view('tasks.edit', [
@@ -60,45 +58,23 @@ class TasksController extends Controller
 
         $title = $request['title'];
 
-        $data = DB::select('select * from tasks where id = :id', [
-            'id' => $id
-        ]);
-
-        if(count($data) > 0) {
-            DB::update('update tasks set title = :title where id =:id', [
-                'id' => $id,
-                'title' => $title
-            ]);
-        }
+        Task::find($id)->update(['titulo'=>$title]);
 
         return redirect()->route('list');
     }
 
     public function del($id){
 
-        DB::delete('delete from tasks where id = :id', [
-            'id' => $id
-        ]);
+        Task::find($id)->delete();
 
         return redirect()->route('list');
     }
 
     public function done($id){
 
-        $data = DB::select('select * from tasks where id = :id', [
-            'id' => $id
-        ]);
-        $done = !$data[0]->done;
-
-
-        DB::update('update tasks set done = :done where id = :id', [
-            'id' => $id,
-            'done' => $done
-        ]);
-
-        /*DB::update('update tasks set done = 1 - done where id = :id', [
-            'id' => $id
-        ]);*/
+        $task  = Task::find($id);
+        $task->title = 1 - $task->done;
+        $task->save();
 
         return redirect()->route('list');
 
