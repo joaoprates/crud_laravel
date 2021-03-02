@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\ConfigController;
 use App\Http\Controllers\TasksController;
 use Illuminate\Support\Facades\Route;
 
@@ -37,6 +38,14 @@ Route::prefix('/tasks')->group(function (){
     Route::get('mark/{id}', [TasksController::Class, 'done'])->name('done');
 });
 
-Auth::routes();
+Route::prefix('/config')->group(function () {
+    Route::get('/', [ConfigController::Class, 'index'])->name('config')->middleware('auth');
+    Route::post('/', [ConfigController::Class, 'index']);
+
+    Route::get('info', [ConfigController::Class, 'info'])->name('config');
+    Route::get('permissions', [ConfigController::Class, 'permissions'])->name('config');
+});
+
+//Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
