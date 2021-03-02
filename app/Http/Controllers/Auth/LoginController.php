@@ -54,4 +54,10 @@ class LoginController extends Controller
                 ->with('warning', 'E-mail e/ou senha inválidos');
         }
     }
+
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route('login');
+    }
 }

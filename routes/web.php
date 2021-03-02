@@ -23,6 +23,12 @@ Route::get('/', function () {
 Route::get('/login', [LoginController::Class, 'index'])->name('login');
 Route::post('/login', [LoginController::Class, 'authenticate']);
 
+Route::post('/logout', [LoginController::Class, 'logout'])->name('logout');
+
+Route::get('/register', [LoginController::Class, 'index'])->name('register');
+Route::post('/register', [LoginController::Class, 'register']);
+
+
 Route::prefix('/tasks')->group(function (){
 
     Route::get('/', [TasksController::Class, 'list'])->name('list');

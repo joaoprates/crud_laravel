@@ -6,10 +6,11 @@
     @if(Session::has('warning'))
         toastr.options =
         {
-            "closeButton" : true,
-            "progressBar" : true
+        "closeButton" : true,
+        "progressBar" : true
         }
         toastr.warning("{{ session('warning') }}");
+    @endif
     <form method="POST">
         @csrf
         <input type="email" name="email" placeholder="email"><br><br>
